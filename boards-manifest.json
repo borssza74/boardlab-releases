@@ -1,0 +1,140 @@
+{
+  "dbVersion": "2026.11.1",
+  "updatedAt": "2026-11-11T04:05:00.000Z",
+  "boards": [
+    {
+      "id": "ota-subboard-usbc-v2",
+      "name": "[OTA] USB-C & Mic Sub-Board (Sample Update)",
+      "subtitle": "อัปเดตออนไลน์อัตโนมัติ • ตูดชาร์จ, ไมค์, และวงจรป้องกันไฟกระชาก",
+      "boardWidth": 840,
+      "boardHeight": 520,
+      "nets": {
+        "GND": {
+          "color": "#64748b",
+          "voltage": "0.00V",
+          "diodeRef": "0.000V",
+          "diodeMin": 0,
+          "diodeMax": 0.015,
+          "desc": "Ground หลักของบอร์ดก้นชาร์จ",
+          "commonFaults": "ขา Ground หลวมทำให้ไมค์ซ่าหรือชาร์จติดๆ ดับๆ"
+        },
+        "SUB_VBUS_5V": {
+          "color": "#f97316",
+          "voltage": "5.0V / 9.0V",
+          "diodeRef": "0.490V",
+          "diodeMin": 0.42,
+          "diodeMax": 0.56,
+          "desc": "ไฟ 5V จากพอร์ตชาร์จผ่าน TVS Diode D100 ก่อนขึ้นสายแพรหลัก",
+          "commonFaults": "D100 ช็อตลงกราวด์เมื่อโดนหัวชาร์จไฟกระชาก ทำให้ชาร์จไม่เข้าเลย"
+        },
+        "MIC_BIAS_1V8": {
+          "color": "#10b981",
+          "voltage": "1.80V",
+          "diodeRef": "0.550V",
+          "diodeMin": 0.46,
+          "diodeMax": 0.64,
+          "desc": "ไฟเลี้ยงไมโครโฟนสนทนา",
+          "commonFaults": "ไฟไม่ออกหรือ R ฟิวส์ขาด ทำให้ปลายสายไม่ได้ยินเสียง"
+        }
+      },
+      "components": [
+        {
+          "id": "J500",
+          "name": "USB-C Receptacle",
+          "type": "CONN",
+          "layer": "top",
+          "x": 90,
+          "y": 185,
+          "w": 96,
+          "h": 130,
+          "desc": "พอร์ตชาร์จ USB-C บนบอร์ดก้นชาร์จ",
+          "pins": [
+            { "id": "J500.1", "label": "VBUS", "net": "SUB_VBUS_5V", "rx": 66, "ry": 22, "rw": 20, "rh": 20, "diode": "0.490V", "note": "วัดจุดแรกเมื่อชาร์จไม่เข้า" },
+            { "id": "J500.2", "label": "GND", "net": "GND", "rx": 66, "ry": 88, "rw": 20, "rh": 20, "diode": "0.000V", "note": "ขากราวด์" }
+          ]
+        },
+        {
+          "id": "D100",
+          "name": "TVS Surge Protection Diode",
+          "type": "DIODE",
+          "layer": "top",
+          "x": 265,
+          "y": 185,
+          "w": 50,
+          "h": 72,
+          "desc": "ไดโอดป้องกันไฟกระชาก VBUS",
+          "pins": [
+            { "id": "D100.1", "label": "K", "net": "SUB_VBUS_5V", "rx": 15, "ry": 6, "rw": 20, "rh": 18, "diode": "0.490V", "note": "ถ้าจุดนี้วัดได้ 0.00V ให้ลองยก D100 ออกเช็ก" },
+            { "id": "D100.2", "label": "GND", "net": "GND", "rx": 15, "ry": 48, "rw": 20, "rh": 18, "diode": "0.000V", "note": "กราวด์" }
+          ]
+        },
+        {
+          "id": "MK100",
+          "name": "Digital MEMS Microphone",
+          "type": "IC",
+          "layer": "top",
+          "x": 420,
+          "y": 270,
+          "w": 72,
+          "h": 72,
+          "desc": "ไมโครโฟนหลัก",
+          "pins": [
+            { "id": "MK100.1", "label": "VDD", "net": "MIC_BIAS_1V8", "rx": 8, "ry": 26, "rw": 18, "rh": 18, "diode": "0.550V", "note": "ไฟเลี้ยงไมค์ 1.8V" },
+            { "id": "MK100.2", "label": "GND", "net": "GND", "rx": 46, "ry": 26, "rw": 18, "rh": 18, "diode": "0.000V", "note": "กราวด์ไมค์" }
+          ]
+        },
+        {
+          "id": "J501",
+          "name": "Main Flex FPC Connector",
+          "type": "CONN",
+          "layer": "top",
+          "x": 610,
+          "y": 155,
+          "w": 115,
+          "h": 175,
+          "desc": "ซ็อกเก็ตสายแพรเชื่อมต่อไปยังเมนบอร์ดหลัก",
+          "pins": [
+            { "id": "J501.1", "label": "VBUS", "net": "SUB_VBUS_5V", "rx": 10, "ry": 40, "rw": 20, "rh": 20, "diode": "0.490V", "note": "ส่งไฟชาร์จขึ้นบอร์ดใหญ่" },
+            { "id": "J501.2", "label": "MIC+", "net": "MIC_BIAS_1V8", "rx": 10, "ry": 120, "rw": 20, "rh": 20, "diode": "0.550V", "note": "รับไฟเลี้ยงไมค์จากบอร์ดใหญ่" }
+          ]
+        }
+      ],
+      "traces": [
+        { "net": "SUB_VBUS_5V", "layer": "top", "points": [[166, 217], [290, 200], [630, 205]] },
+        { "net": "MIC_BIAS_1V8", "layer": "top", "points": [[437, 305], [630, 285]] }
+      ],
+      "schematic": {
+        "width": 720,
+        "height": 360,
+        "blocks": [
+          { "id": "J500", "x": 50, "y": 120, "w": 100, "h": 70, "title": "J500", "sub": "USB-C Port" },
+          { "id": "D100", "x": 245, "y": 120, "w": 95, "h": 70, "title": "D100", "sub": "TVS Diode" },
+          { "id": "MK100", "x": 245, "y": 240, "w": 95, "h": 64, "title": "MK100", "sub": "MEMS Mic" },
+          { "id": "J501", "x": 510, "y": 120, "w": 120, "h": 180, "title": "J501", "sub": "Main FPC" }
+        ],
+        "wires": [
+          { "net": "SUB_VBUS_5V", "label": "SUB_VBUS_5V", "x1": 150, "y1": 155, "x2": 510, "y2": 155, "lx": 380, "ly": 145 },
+          { "net": "MIC_BIAS_1V8", "label": "MIC_BIAS_1V8", "x1": 340, "y1": 272, "x2": 510, "y2": 272, "lx": 425, "ly": 262 }
+        ]
+      },
+      "faultCases": [
+        {
+          "id": "ota-case-surge",
+          "title": "ชาร์จไม่เข้าหลังเสียบที่ชาร์จในรถ (D100 ช็อต)",
+          "symptom": "ไฟ 5V จากหัวชาร์จหายเมื่อเสียบเข้าบอร์ดก้นชาร์จ",
+          "severity": "เคสอัปเดต OTA",
+          "steps": [
+            {
+              "title": "ขั้นที่ 1: เช็กช็อตที่ D100.1 (SUB_VBUS_5V)",
+              "focusComponent": "D100",
+              "focusPin": "D100.1",
+              "focusNet": "SUB_VBUS_5V",
+              "expected": "ปกติ ~0.490V | ถ้า 0.00V ให้ถอด D100 ออก",
+              "action": "วัดเทียบกราวด์ที่ขา K ของ D100 ถ้าช็อตลงกราวด์ให้ถอด D100 แล้ววัดซ้ำทันที"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
